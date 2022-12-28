@@ -55,10 +55,20 @@ example(of: "Create a phone number lookup") {
 
     return "Dialing \(contact) (\(phoneNumber))..."
   }
-
-
-
-  
+    
+    func dialPipeline(phoneNumber: String) {
+        phoneNumber
+            .publisher
+            .map { String($0) }
+            .map { convert(phoneNumber: $0) }
+            .replaceNil(with: 0)
+            .collect(10)
+            .map { format(digits: $0) }
+            .map { dial(phoneNumber: $0) }
+            .sink { print($0) }
+    }
+    
+    dialPipeline(phoneNumber: "2125553434")
 }
 
 /// Copyright (c) 2020 Razeware LLC
