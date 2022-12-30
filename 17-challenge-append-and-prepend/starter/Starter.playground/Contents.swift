@@ -4,14 +4,22 @@ import Combine
 var subscriptions = Set<AnyCancellable>()
 
 example(of: "Making Phone Numbers") {
-
-  let phoneNumbersPublisher = ["123-4567"].publisher
-  let areaCode = "410"
-  let phoneExtension = "901"
-
-  
-  <#Add your code here#>
-  
+    
+    let phoneNumbersPublisher = ["123-4567"].publisher
+    let areaCode = "410"
+    let phoneExtension = "901"
+    
+    
+    phoneNumbersPublisher
+        .prepend(areaCode)
+        .prepend("1")
+        .collect()
+        .map { $0.joined(separator: "-") }
+        .append("Ext")
+        .append(phoneExtension)
+        .collect()
+        .map { $0.joined(separator: " ") }
+        .sink { print($0) }
 }
 /// Copyright (c) 2020 Razeware LLC
 ///
