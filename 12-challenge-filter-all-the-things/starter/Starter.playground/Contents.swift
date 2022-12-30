@@ -3,7 +3,15 @@ import Combine
 
 var subscriptions = Set<AnyCancellable>()
 
-<#Add your code here#>
+example(of: "Challenge Filtering") {
+    let numbersPublisher = (1...100).publisher
+    
+    numbersPublisher
+        .dropFirst(50)
+        .prefix(20)
+        .filter { $0 % 2 == 0 }
+        .sink { print($0) }
+}
 
 /// Copyright (c) 2020 Razeware LLC
 ///
